@@ -60,7 +60,7 @@ CHILDREN_PRICE = ChildrenPrice()
 class Movie:
     """A movie available for rent."""
 
-    def __init__(self, title, price_strategy):
+    def __init__(self, title, price_strategy: PriceStrategy):
         """Initialize a new movie with a price strategy."""
         self.title = title
         self.price_strategy = price_strategy
@@ -70,9 +70,9 @@ class Movie:
         return self.price_strategy.get_price(days_rented)
 
     def get_rental_points(self, days_rented: int) -> int:
-        """Delegate the frequent renter points calculation to the price
-        strategy."""
+        """Delegate the frequent renter points calculation to the price strategy."""
         return self.price_strategy.get_rental_points(days_rented)
 
     def get_title(self) -> str:
         return self.title
+

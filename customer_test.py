@@ -2,7 +2,7 @@ import re
 import unittest
 from customer import Customer
 from rental import Rental
-from movie import Movie, REGULAR_PRICE, NEW_RELEASE_PRICE, CHILDREN_PRICE
+from movie import *
 
 class CustomerTest(unittest.TestCase):
     """Tests of the Customer class"""
@@ -13,10 +13,10 @@ class CustomerTest(unittest.TestCase):
         - Movies: list of movies with different price strategies
         """
         self.c = Customer("Movie Mogul")
-        # Use the new price strategy objects when creating movies
-        self.new_movie = Movie("Mulan", NEW_RELEASE_PRICE)        # New release
-        self.regular_movie = Movie("CitizenFour", REGULAR_PRICE)   # Regular
-        self.childrens_movie = Movie("Frozen", CHILDREN_PRICE)     # Children's movie
+        self.new_movie = Movie("Mulan", NEW_RELEASE_PRICE)
+        self.regular_movie = Movie("CitizenFour", REGULAR_PRICE)
+        self.childrens_movie = Movie("Frozen", CHILDREN_PRICE)
+
 
     def test_billing(self):
         """Test the total billing amount for multiple rentals."""
