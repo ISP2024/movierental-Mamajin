@@ -26,49 +26,45 @@ class Customer:
         return self.name
 
     def total_amount(self,
-                     frequent_renter_points=0, statement="", rental_fmt=""):
-        """Calculates to total amount for all rentals"""
+                     statement="", rental_fmt=""):
+        """Calculates the total amount and frequent
+        renter points for all rentals."""
         total = 0
+        frequent_renter_points = 0  # Moved initialization here
         for rental in self.rentals:
-            # compute the frequent renter points based on movie price code
-            frequent_renter_points += rental.rental_point()
-            #  add a detail line to statement
+            # Calculate frequent renter points using the new method
+            frequent_renter_points += rental.get_rental_points()
+
+            # Add a detail line to the statement
             statement += rental_fmt.format(
                 rental.get_movie().get_title(),
                 rental.get_days_rented(),
                 rental.get_price())
-            # and accumulate activity
+
+            # Accumulate total rental price
             total += rental.get_price()
+
         return total, frequent_renter_points, statement, rental_fmt
 
     def statement(self):
-        """Create a statement of rentals for the current period.
-
-        Print all the rentals in the current period, 
-        along with total charges and frequent renter points.
-        
-        Returns:
-            the statement as a String
-        """
-        frequent_renter_points = 0
-        # the .format method substitutes actual values into the fmt string
+        """Create a statement of rentals for the current period."""
         statement = f"Rental Report for {self.name}\n\n"
         header_fmt = "{:40s}  {:6s} {:6s}\n"
         statement += header_fmt.format("Movie Title", "  Days", " Price")
         rental_fmt = "{:40s}  {:6d} {:6.2f}\n"
 
-        total, frequent_renter_points, statement, rental_fmt = (
-            self.total_amount(
-                frequent_renter_points,
-                statement,
-                rental_fmt)
+        # Get total amount and frequent renter points
+        total, frequent_renter_points, statement, rental_fmt = self.total_amount(
+            statement,
+            rental_fmt
         )
 
-        # footer: summary of charges
+        # Footer: Summary of charges and frequent renter points
         statement += "\n"
-        statement += "{:40s}  {:6s} {:6.2f}\n".format(
-            "Total Charges", "", total)
+        statement += "{:40s}  {:6s} {:6.2f}\n".format("Total Charges", "",
+                                                      total)
         statement += "Frequent Renter Points earned: {}\n".format(
             frequent_renter_points)
 
         return statement
+

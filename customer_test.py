@@ -40,3 +40,15 @@ class CustomerTest(unittest.TestCase):
         matches = re.match(pattern, stmt.replace('\n', ''), flags=re.DOTALL)
         self.assertIsNotNone(matches)
         self.assertEqual("12.00", matches[1])
+
+    def test_regular_movie_points(self):
+        rental = Rental(self.regular_movie, 5)  # 5 days rental
+        self.assertEqual(rental.get_rental_points(), 1)  # Regular movies always get 1 point
+
+    def test_new_release_movie_points(self):
+        rental = Rental(self.new_movie, 3)  # 3 days rental
+        self.assertEqual(rental.get_rental_points(), 3)  # 1 point per day for new releases
+
+    def test_children_movie_points(self):
+        rental = Rental(self.childrens_movie, 7)  # 7 days rental
+        self.assertEqual(rental.get_rental_points(), 1)  # Children's movies always get 1 point
