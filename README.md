@@ -41,3 +41,17 @@ such as title, year and genre. This makes the class focused and cohesive
 including determining the pricing strategy. By moving price code to Rental we 
 ensure that Movie only manages it's own content while Rental handles the logic
 
+### 5.2 Rationale
+
+The price_code_for_movie method is implemented as a class method within the 
+Movie class. This decision is justified based on several design principles:
+
+1. High Cohesion
+
+The Movie class is responsible for representing the properties and behaviors 
+of movies, including attributes like title, year, and genres. Since the pricing rules depend on these attributes, placing the method within the Movie class ensures that all related functionality is grouped together. This makes the class more cohesive and easier to understand.
+
+2. Single Responsibility Principle
+
+The Movie class maintains a single responsibility: to encapsulate movie 
+details and behaviors. Determining the price code based on the movie's attributes falls within this responsibility. This design keeps the class focused on its role without introducing unnecessary dependencies on other classes.
