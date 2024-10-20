@@ -45,14 +45,7 @@ class Movie:
     def __str__(self) -> str:
         return f"{self._title} ({self._year})"
 
-    @classmethod
-    def price_code_for_movie(cls, movie: 'Movie') -> PriceStrategy:
+    def price_code_for_movie(self, movie: 'Movie') -> PriceStrategy:
         """Determine the price code for the given movie."""
-        current_year = 2024
-        if movie.year == current_year:
-            return NEW_RELEASE_PRICE
-        elif movie.is_genre("Children") or movie.is_genre("Childrens"):
-            return CHILDREN_PRICE
-        else:
-            return REGULAR_PRICE
+        return self.price_strategy
 

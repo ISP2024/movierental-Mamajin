@@ -5,7 +5,9 @@ from typing import Optional, List, Set
 
 
 # Configure logging
-logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.ERROR,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 class MovieCatalog:
     _instance = None
@@ -36,12 +38,11 @@ class MovieCatalog:
 
                 try:
                     # Assuming columns are in the order: movie_id, title, year, genres
-                    movie_id = row[0]  # You can store this if needed
-                    title = row[1]  # Assuming title is in the second column
-                    year = int(row[2])  # Assuming year is in the third column
-                    genres = row[3].split('|')  # Genres are separated by '|'
+                    movie_id = row[0]
+                    title = row[1]  # title is in the second column
+                    year = int(row[2])
+                    genres = row[3].split('|')
 
-                    # Determine price strategy based on the year and genres
                     price_strategy = self.determine_price_strategy(year, genres)
 
                     # Create and store the movie object
@@ -51,9 +52,10 @@ class MovieCatalog:
                 except (ValueError, IndexError) as e:
                     continue
 
-    def determine_price_strategy(self, year: int, genres: list) -> PriceStrategy:
+    @staticmethod
+    def determine_price_strategy(year: int, genres: list) -> PriceStrategy:
         """Determine the price strategy based on the year and genres."""
-        current_year = 2024  # Replace with actual current year logic if needed
+        current_year = 2024
         if year == current_year:
             return NEW_RELEASE_PRICE
         elif any("children" in genre.lower() for genre in genres):

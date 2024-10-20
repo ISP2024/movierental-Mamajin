@@ -19,7 +19,8 @@ class Customer:
         return self.name
 
     def total_amount(self, statement="", rental_fmt=""):
-        """Calculates the total amount and frequent renter points for all rentals."""
+        """Calculates the total amount and
+        frequent renter points for all rentals."""
         total = 0
         frequent_renter_points = 0
         for rental in self.rentals:
