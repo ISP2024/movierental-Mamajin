@@ -3,34 +3,18 @@ from rental import Rental
 from customer import Customer
 from movie_catalog import MovieCatalog
 
+# implement later? Currently dead code
+catalog = MovieCatalog()
+
 
 def make_movies():
     """Some sample movies with associated price strategies."""
     movies = [
-        Movie("Air",
-              2023,
-              ["drama", "biography", "sports"],
-              NEW_RELEASE_PRICE),
-
-        Movie("Oppenheimer",
-              2023,
-              ["drama", "history", "biography"],
-              REGULAR_PRICE),
-
-        Movie("Frozen",
-              2013,
-              ["animation", "family", "fantasy"],
-              CHILDREN_PRICE),
-
-        Movie("Bitconned",
-              2023,
-              ["comedy", "thriller"],
-              NEW_RELEASE_PRICE),
-
-        Movie("Particle Fever",
-              2013,
-              ["documentary", "science"],
-              REGULAR_PRICE)
+        catalog.get_movie("Barbie"),
+        catalog.get_movie("Young Woman and the Sea"),
+        catalog.get_movie("Dumb Money"),
+        catalog.get_movie("Son of Saul"),
+        catalog.get_movie("Spider Man: No Way Home"),
     ]
     return movies
 

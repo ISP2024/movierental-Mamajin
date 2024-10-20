@@ -36,6 +36,9 @@ class Movie:
     def get_title(self) -> str:
         return self.title
 
+    def get_price_strategy(self):
+        return self.price_strategy
+
     def is_genre(self, genre: str) -> bool:
         return genre.lower() in map(str.lower, self._genres)
 
@@ -45,7 +48,7 @@ class Movie:
     @classmethod
     def price_code_for_movie(cls, movie: 'Movie') -> PriceStrategy:
         """Determine the price code for the given movie."""
-        current_year = 2024  # Replace with dynamic year retrieval if necessary
+        current_year = 2024
         if movie.year == current_year:
             return NEW_RELEASE_PRICE
         elif movie.is_genre("Children") or movie.is_genre("Childrens"):

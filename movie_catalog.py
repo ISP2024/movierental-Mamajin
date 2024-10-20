@@ -1,7 +1,11 @@
-from movie import *
+import logging
 import csv
+from movie import *
 from typing import Optional, List, Set
 
+
+# Configure logging
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class MovieCatalog:
     _instance = None
@@ -20,24 +24,42 @@ class MovieCatalog:
         """Load movies from a CSV file into memory as Movie objects."""
         with open('movies.csv', newline='', encoding='utf-8') as csvfile:
             reader = csv.reader(csvfile)
-            for row in reader:
-                title = row[0]
-                year = int(row[1])
-                genres = row[2].split(';')  # Assume genres are separated by ';'
-                price_strategy = self.get_price_strategy(row[3])  # Assume a column for price code
-                movie = Movie(title, year, genres, price_strategy)
-                self.movies.append(movie)
 
-    def get_price_strategy(self, price_code: str):
-        """Return the corresponding PriceStrategy based on the price code."""
-        if price_code == "regular":
-            return REGULAR_PRICE
-        elif price_code == "new_release":
+            for line_number, row in enumerate(reader, start=1):
+                # Skip blank lines and comment lines
+                if not row or row[0].startswith('#'):
+                    continue
+
+                if len(row) < 4:  # Ensure there are enough columns
+                    logging.error(f"Line {line_number}: Unrecognized format {row}")
+                    continue  # Skip this iteration if row is invalid
+
+                try:
+                    # Assuming columns are in the order: movie_id, title, year, genres
+                    movie_id = row[0]  # You can store this if needed
+                    title = row[1]  # Assuming title is in the second column
+                    year = int(row[2])  # Assuming year is in the third column
+                    genres = row[3].split('|')  # Genres are separated by '|'
+
+                    # Determine price strategy based on the year and genres
+                    price_strategy = self.determine_price_strategy(year, genres)
+
+                    # Create and store the movie object
+                    movie = Movie(title, year, genres, price_strategy)
+                    self.movies.append(movie)
+
+                except (ValueError, IndexError) as e:
+                    continue
+
+    def determine_price_strategy(self, year: int, genres: list) -> PriceStrategy:
+        """Determine the price strategy based on the year and genres."""
+        current_year = 2024  # Replace with actual current year logic if needed
+        if year == current_year:
             return NEW_RELEASE_PRICE
-        elif price_code == "children":
+        elif any("children" in genre.lower() for genre in genres):
             return CHILDREN_PRICE
         else:
-            raise ValueError(f"Unknown price code: {price_code}")
+            return REGULAR_PRICE
 
     def get_movie(self, title: str, year: Optional[int] = None) -> Optional['Movie']:
         """Return a movie by title and optionally by year."""
