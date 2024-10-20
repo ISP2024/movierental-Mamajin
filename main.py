@@ -1,6 +1,7 @@
 from movie import *
 from rental import Rental
 from customer import Customer
+from movie_catalog import MovieCatalog
 
 
 def make_movies():
